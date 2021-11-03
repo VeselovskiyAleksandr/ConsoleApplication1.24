@@ -32,7 +32,7 @@ int main() {
 	cout << "To make entry, enter 1; to read the contents enter 2";
 	cin >> action;
 	if (action == 1) {
-		int counter = 0;
+		
 ofstream file("C:\\Users\\Александр\\Documents\\text for program\\payment statement.bin", ios::binary | ios::app);
 	if (file.is_open()) {
 				cout << "\nThe accounting statement is open for recording.";
