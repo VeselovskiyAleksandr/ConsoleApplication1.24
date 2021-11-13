@@ -46,8 +46,6 @@ void takeDamagePl(player&character, int damage) {
 }
 
 void save_battle(ofstream& file, battles& wildWorld) {
-	//ofstream battle("C:\\Users\\Александр\\Documents\\text for program\\battle", ios::binary);
-
 	int lenP = wildWorld. bettor.name.length();
 	file.write((char*)&lenP, sizeof(lenP));
 	file.write((char*)wildWorld.bettor.name.c_str(), lenP);
@@ -65,13 +63,11 @@ void save_battle(ofstream& file, battles& wildWorld) {
 		file.write((char*)&wildWorld.foe[i].armor, sizeof(wildWorld.foe[i].armor));
 		file.write((char*)&wildWorld.foe[i].damage, sizeof(wildWorld.foe[i].damage));
 		file.write((char*)&wildWorld.foe[i].x, sizeof(wildWorld.foe[i].x));
-		file.write((char*)&wildWorld.foe[i].y, sizeof(wildWorld.foe[i].y));
-		
+		file.write((char*)&wildWorld.foe[i].y, sizeof(wildWorld.foe[i].y));		
 	}
 }
 
   void load_battle(ifstream& file, battles &wildWorld) {
-	//ifstream battle("C:\\Users\\Александр\\Documents\\text for program\\battle", ios::binary);
 		int lenP= wildWorld.bettor .name.length();
 		file.read((char*)&lenP, sizeof(lenP));
 		wildWorld.bettor.name.resize(lenP);
@@ -90,8 +86,7 @@ void save_battle(ofstream& file, battles& wildWorld) {
 			file.read((char*)&wildWorld.foe[i].armor, sizeof(wildWorld.foe[i].armor));
 			file.read((char*)&wildWorld.foe[i].damage, sizeof(wildWorld.foe[i].damage));
 			file.read((char*)&wildWorld.foe[i].x, sizeof(wildWorld.foe[i].x));
-			file.read((char*)&wildWorld.foe[i].y, sizeof(wildWorld.foe[i].y));
-			
+			file.read((char*)&wildWorld.foe[i].y, sizeof(wildWorld.foe[i].y));			
 	}
 }
 int main()
@@ -235,13 +230,12 @@ int main()
 				}
 			}
 		}
-		cout << "\n" << wildWorld.bettor.name << " " << "coordinates: " << "(" << wildWorld.bettor.x << "," << wildWorld.bettor.y << ")" << "   health: " << wildWorld.bettor.health;
-		cout<< " " << "  armor: " << wildWorld.bettor.armor;
+		cout << "\n" << wildWorld.bettor.name << " " << "coordinates: " << "(" << wildWorld.bettor.x << "," ;
+		cout<< wildWorld.bettor.y << ")" << "   health: " << wildWorld.bettor.health << " " << "  armor: " << wildWorld.bettor.armor;
 		for (int i = 0; i < 5; i++) {
-			cout << "\n     " << wildWorld.foe[i].appellation << " " << "coordinates: " << "(" << wildWorld.foe[i].x << "," << wildWorld.foe[i].y << ")" << "   health: ";
-			cout<< wildWorld.foe[i].health << " " << "  armor: " << wildWorld.foe[i].armor;
-		}
-	
+			cout << "\n     " << wildWorld.foe[i].appellation << " " << "coordinates: " << "(" << wildWorld.foe[i].x << "," ;
+			cout<< wildWorld.foe[i].y << ")" << "   health: " << wildWorld.foe[i].health << " " << "  armor: " << wildWorld.foe[i].armor;
+		}	
 	} while (true);
 	file.close();
 	return 0;
