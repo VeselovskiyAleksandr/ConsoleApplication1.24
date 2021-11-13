@@ -18,7 +18,7 @@ struct floors {
 	string  quantityRooms;
 	string ceillingHeight;
 
-	struct room rooms;
+	vector <room> rooms;
 };
 
 
@@ -46,16 +46,14 @@ int main()
 
 	village plotLand;
 	cottage privateCottage;
-	floors houseFloor1;
-	floors houseFloor2;
-	room rooms1;
-	room rooms2;
-	room rooms3;
-	room rooms4;
-vector < village> plotLands;
-	string str, st, s;
+	floors houseFloor;
+	
+	room rooms;
+	
+    vector < village> plotLands;
 	vector <floors> houseFloors;
 	vector <room> chamber;
+    string str, st, s;
 	fstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
 	if (file.is_open()) {
 		cout << "\nThe accounting statement is open for recording.";
@@ -89,51 +87,37 @@ vector < village> plotLands;
 			cin>> plotLand.privateCottage.stove;
 			cout << "\nSpecify the number of floors: ";
 			cin >> plotLand.privateCottage.quantityFloor;
-             str= plotLand.privateCottage.quantityFloor;
-
-		//	int countF= plotLand.privateCottage.quantityFloor;
-         int countF = stoi(str);
-		
-			for (int j = 0; j < countF; j++) {
-				
+             str= plotLand.privateCottage.quantityFloor;		
+         int countF = stoi(str);		
+			for (int j = 0; j < countF; j++) {			
 			cout << "\nspecify the number of rooms on the floor: ";
 	          cin>> plotLand.privateCottage.houseFloor.quantityRooms;
-		//cout<< houseFloor.quantityRooms;
+		
 				st= plotLand.privateCottage.houseFloor.quantityRooms;
-			//	int countR= plotLand.privateCottage.houseFloor.quantityRooms;
+			
 				int countR =stoi(st);
 		
 				for (int k = 0; k < countR; k++){
 					cout << "\nspecify the type of rooms: ";
               cin>> plotLand.privateCottage.houseFloor.rooms.roomType;
-		//	  cout << houseFloor[j].rooms.roomType;
-			  plotLands.push_back(plotLand);
 		
-			//  chamber.push_back(rooms);
-          //   str= plotLand.privateCottage.houseFloor.rooms.roomType;
-           
+			  plotLands.push_back(plotLand);           
 					cout << "\nspecify the area of the room: ";
 				cin >> plotLand.privateCottage.houseFloor.rooms.roomSquare;
 					
-				chamber.push_back(rooms[k]);
-				
-
-			//	cout<< chamber[k].roomType<<" ";
+				chamber.push_back(rooms);
+							
 				}
-houseFloors.push_back(houseFloor1);
-
-
-
+houseFloors.push_back(houseFloor);
 				
 			}
 plotLands.push_back(plotLand);
 		}
-		
-		
+				
 		for (int i = 0; i < plotLands.size(); i++) {
 		
 			file << plotLands[i].square << " " << plotLands[i].quantityBuilding << " " << plotLands[i].garage << " " << plotLands[i].barn;
-	//		file <<" "<< plotLands[i].bathhouse<<" "<< plotLand[i].privateCottage.stove; 
+			file <<" "<< plotLands[i].bathhouse<<" "<< plotLand.privateCottage.stove; 
 			for (int j = 0; j < houseFloors.size(); j++) {
 				file<< houseFloors[j].quantityRooms<<" "<< houseFloors[j].ceillingHeight<<"\n";
 				for (int k = 0; k < chamber.size(); k++) {
