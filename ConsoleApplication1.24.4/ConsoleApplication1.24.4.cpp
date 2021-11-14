@@ -96,6 +96,13 @@ int main()
 	int counter = 0, play = 1;
 	srand(time(NULL));
 	 ifstream file("C:\\Users\\Александр\\Documents\\text for program\\battle", ios::binary);
+	 if (file.is_open()) {
+		 cout << "\nThe accounting statement is open for recording.";
+	 }
+	 else {
+		 cerr << "\nThe file is not found. ";
+		 return 1;
+	 }
 	int start = 0;
 	cout << "To start a new game put 1, to continue - put 2";
 	cin >> start;
