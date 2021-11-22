@@ -151,21 +151,11 @@ int main()
 			}
 			cout << "\n";
 		}
-	cout << "\n To exit the game put 0, to continue - put any other number.";
-		cin >> play;
-		if (play == 0) {
-			ofstream file("C:\\Users\\Александр\\Documents\\text for program\\battle", ios::binary);
-			 save_battle( file, wildWorld);
-			file.close();
-			break;
-		}
-		else {
-		}
 		char ch = 'a';
 		bool rightMove;
 		do {
 	         rightMove = true;
-			cout << "\nMake a move (left - enter l, right - enter r, bottom - enter b, top - enter t)";
+			cout << "\nMake a move (left - enter l, right - enter r, bottom - enter b, top - enter t, to exit the game put q)";
 			cin >> ch;
 			if (ch == 'l' && wildWorld.bettor.x > 0) {
 				wildWorld.bettor.x -= 1;
@@ -179,11 +169,20 @@ int main()
 			else if (ch == 't' && wildWorld.bettor.y > 0) {
 				wildWorld.bettor.y -= 1;
 			}
+			else if (ch == 'q') {
+				ofstream file("C:\\Users\\Александр\\Documents\\text for program\\battle", ios::binary);
+				save_battle(file, wildWorld);
+				file.close();
+				break;
+			}
 			else  {
 				cout << "\nMake a right move.";
 				rightMove = false;
 			}
 		} while (rightMove != true);
+		if (ch == 'q') {
+			break;
+		}
 		for (int i = 0; i < 5; i++) {
 			if (wildWorld.bettor.x == wildWorld.foe[i].x && wildWorld.bettor.y == wildWorld.foe[i].y) {
 				takeDamageEn(wildWorld.foe[i], wildWorld.bettor.damage);
