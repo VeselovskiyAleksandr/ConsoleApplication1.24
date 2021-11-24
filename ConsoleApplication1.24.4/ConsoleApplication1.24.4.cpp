@@ -91,7 +91,6 @@ void save_battle(ofstream& file, battles& wildWorld) {
 }
 int main()
 {
-	enemy foe[5];
 	player bettor;
 	int counter = 0, play = 1;
 	srand(time(NULL));
