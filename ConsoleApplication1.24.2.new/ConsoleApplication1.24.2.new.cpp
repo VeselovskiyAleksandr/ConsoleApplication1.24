@@ -52,7 +52,8 @@ void  record_individualHousingConstruction() {
 	string str = "";
 	char whitespace = ' ', semicolon = ';';
 	int plot = 0, countC=0, sqPlot = 0, sqR[10], count=0;
-	ifstream cfile("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
+//	ifstream cfile("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
+	ifstream cfile("village.txt");
 	while (!cfile.eof()) {
 		cfile >> str;
 		if (str.substr(0,8)=="plotLand") {
@@ -61,7 +62,8 @@ void  record_individualHousingConstruction() {
 		str = "";
 	}
 	cfile.close();
-	ofstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
+	//ofstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
+	ofstream file("village.txt", ios::app);
 	cout << "\nEnter the number of plotlands.";
 	do {
 		cin >> plot;
@@ -74,7 +76,7 @@ void  record_individualHousingConstruction() {
 		cout << "\nPlot name: ";
 		cout << "\nplotLand #" + to_string(i + 1);
 		str10[i] = "\nThe living area of the house #" + to_string(i + 1) + " is (Sq m): ";
-		plotLand[i].plotLands.push_back("plotLand #" + to_string(i + 1));
+		plotLand[i].plotLands.push_back("\nplotLand #" + to_string(i + 1));
 		cout << "\nEnter the square of  plotLand: ";
 		cin >> plotLand[i].square;
 		sqPlot += plotLand[i].square;
@@ -266,7 +268,8 @@ void  load_individualHousingConstruction() {
 	vector <string> state;
 	vector <string>  nameR;
 	int num = 0;
-	ifstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
+//	ifstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
+	ifstream file("village.txt");
 	while (!file.eof()) {
 		file >> str;
 		state.push_back(str);
@@ -282,7 +285,8 @@ void  load_individualHousingConstruction() {
 
 int main()
 {
-	fstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
+	//fstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
+	fstream file("village.txt", ios::app);
 	if (file.is_open()) {
 		cout << "\nThe file is open.";
 	}
