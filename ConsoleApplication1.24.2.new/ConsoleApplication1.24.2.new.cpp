@@ -9,9 +9,8 @@
 using namespace std;
 
 struct room {
-	enum rooms { SLEEPING = 1, LIVING = 2, DINING = 4, CHILDREN = 8, OFFICE = 16, LIBRARY = 32, LAUNDRY = 64, WORKROOM = 128, GUEST = 256 };
+	enum rooms { SLEEPING, LIVING, DINING, CHILDREN, OFFICE, LIBRARY, LAUNDRY, WORKROOM, GUEST };
 	float roomSquare[9];
-	vector <int>  nameR;
 };
 room chamber[12];
 
@@ -19,6 +18,7 @@ struct floors {
 	int  quantityRooms;
 	float ceillingHeight;
 	struct room chamber;
+	vector <int>  nameR;
 };
 floors houseFloor[3];
 
@@ -26,7 +26,7 @@ struct village {
 	string namePlot;
 	float square;
 	int quantityBuilding;
-	enum bilding { COTTAGE = 1, STOVECOT = 2, GARAGE = 4, BARN = 8, BATHHOUSE = 16, STOVEBATH = 32 };
+	enum bilding { COTTAGE, STOVECOT, GARAGE, BARN, BATHHOUSE, STOVEBATH };
 	int quantityFloor;
 	struct floors houseFloor[3];
 	vector <string> plotLands;
@@ -52,7 +52,6 @@ void  record_individualHousingConstruction() {
 	string str = "";
 	char whitespace = ' ', semicolon = ';';
 	int plot = 0, countC=0, sqPlot = 0, sqR[10], count=0;
-//	ifstream cfile("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
 	ifstream cfile("village.txt");
 	while (!cfile.eof()) {
 		cfile >> str;
@@ -62,7 +61,6 @@ void  record_individualHousingConstruction() {
 		str = "";
 	}
 	cfile.close();
-	//ofstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
 	ofstream file("village.txt", ios::app);
 	cout << "\nEnter the number of plotlands.";
 	do {
@@ -125,7 +123,7 @@ void  record_individualHousingConstruction() {
 		int countF = plotLand[i].quantityFloor;
 		for (int j = 0; j < 3 * countF; j++) {    //один этаж обслуживают 3 переменные
 			int nameRs = 0;
-			chamber[j].nameR.push_back(nameRs);
+			houseFloor[j].nameR.push_back(nameRs);
 		}
 		for (int j = 0; j < countF; j++) {
 			cout << "\nFloor " << j + 1 << " specify the number of rooms on the floor: ";
@@ -140,39 +138,39 @@ void  record_individualHousingConstruction() {
 			int countR = plotLand[i].houseFloor[j].quantityRooms;
 			cout << "\nspecify the type of rooms(if no, enter 0, if yes, enter any other number):\n";
 			int status = 0;
-			plotLand[i].houseFloor[j].chamber.nameR.push_back(status);
-			plotLand[i].houseFloor[j].chamber.nameR.push_back(status);
-			plotLand[i].houseFloor[j].chamber.nameR.push_back(status);
+			plotLand[i].houseFloor[j].nameR.push_back(status);
+			plotLand[i].houseFloor[j].nameR.push_back(status);
+			plotLand[i].houseFloor[j].nameR.push_back(status);
 			for (int l = 0; l < 9; l++) {
 				cout << name[l];
 				cin >> status;  //указывает на наличие или отсутствие комнаты
 				if (status != 0) {
 					if (l == 0) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC] |= plotLand[i].houseFloor[j].chamber.SLEEPING;
+						plotLand[i].houseFloor[j].nameR[countC] |= plotLand[i].houseFloor[j].chamber.SLEEPING;
 					}
 					else if (l == 1) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC] |= plotLand[i].houseFloor[j].chamber.LIVING;
+						plotLand[i].houseFloor[j].nameR[countC] |= plotLand[i].houseFloor[j].chamber.LIVING;
 					}
 					else if (l == 2) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC] |= plotLand[i].houseFloor[j].chamber.DINING;
+						plotLand[i].houseFloor[j].nameR[countC] |= plotLand[i].houseFloor[j].chamber.DINING;
 					}
 					else if (l == 3) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC+1] |= plotLand[i].houseFloor[j].chamber.CHILDREN;
+						plotLand[i].houseFloor[j].nameR[countC+1] |= plotLand[i].houseFloor[j].chamber.CHILDREN;
 					}
 					else if (l == 4) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC+1] |= plotLand[i].houseFloor[j].chamber.OFFICE;
+						plotLand[i].houseFloor[j].nameR[countC+1] |= plotLand[i].houseFloor[j].chamber.OFFICE;
 					}
 					else if (l == 5) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC+1] |= plotLand[i].houseFloor[j].chamber.LIBRARY;
+						plotLand[i].houseFloor[j].nameR[countC+1] |= plotLand[i].houseFloor[j].chamber.LIBRARY;
 					}
 					else if (l == 6) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC+2] |= plotLand[i].houseFloor[j].chamber.LAUNDRY;
+						plotLand[i].houseFloor[j].nameR[countC+2] |= plotLand[i].houseFloor[j].chamber.LAUNDRY;
 					}
 					else if (l == 7) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC+2] |= plotLand[i].houseFloor[j].chamber.WORKROOM;
+						plotLand[i].houseFloor[j].nameR[countC+2] |= plotLand[i].houseFloor[j].chamber.WORKROOM;
 					}
 					else if (l == 8) {
-						plotLand[i].houseFloor[j].chamber.nameR[countC+2] |= plotLand[i].houseFloor[j].chamber.GUEST;
+						plotLand[i].houseFloor[j].nameR[countC+2] |= plotLand[i].houseFloor[j].chamber.GUEST;
 					}
 					cout << "\nSpecify the area of the room: ";
 					cin >> plotLand[i].houseFloor[j].chamber.roomSquare[l];
@@ -211,31 +209,31 @@ void  record_individualHousingConstruction() {
 			file << str8 << to_string(numF) << str5 << plotLand[i].houseFloor[j].quantityRooms << whitespace << str0;//numF привёл к str
 			file << str6 << plotLand[i].houseFloor[j].ceillingHeight << whitespace << str0;
 			file << str7;
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC] & plotLand[i].houseFloor[j].chamber.SLEEPING) {
+			if (plotLand[i].houseFloor[j].nameR[countC] & plotLand[i].houseFloor[j].chamber.SLEEPING) {
 				file << name[0] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[0] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC] & plotLand[i].houseFloor[j].chamber.LIVING) {
+			if (plotLand[i].houseFloor[j].nameR[countC] & plotLand[i].houseFloor[j].chamber.LIVING) {
 				file << whitespace << name[1] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[1] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC] & plotLand[i].houseFloor[j].chamber.DINING) {
+			if (plotLand[i].houseFloor[j].nameR[countC] & plotLand[i].houseFloor[j].chamber.DINING) {
 				file << whitespace << name[2] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[2] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.CHILDREN) {
+			if (plotLand[i].houseFloor[j].nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.CHILDREN) {
 				file << whitespace << name[3] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[3] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.OFFICE) {
+			if (plotLand[i].houseFloor[j].nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.OFFICE) {
 				file << whitespace << name[4] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[4] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.LIBRARY) {
+			if (plotLand[i].houseFloor[j].nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.LIBRARY) {
 				file << whitespace << name[5] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[5] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.LAUNDRY) {
+			if (plotLand[i].houseFloor[j].nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.LAUNDRY) {
 				file << whitespace << name[6] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[6] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.WORKROOM) {
+			if (plotLand[i].houseFloor[j].nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.WORKROOM) {
 				file << whitespace << name[7] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[7] << semicolon;
 			}
-			if (plotLand[i].houseFloor[j].chamber.nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.GUEST) {
+			if (plotLand[i].houseFloor[j].nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.GUEST) {
 				file << whitespace << name[8] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[8] << semicolon;
 			}
 			countC += 3;
@@ -268,7 +266,6 @@ void  load_individualHousingConstruction() {
 	vector <string> state;
 	vector <string>  nameR;
 	int num = 0;
-//	ifstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
 	ifstream file("village.txt");
 	while (!file.eof()) {
 		file >> str;
@@ -285,7 +282,6 @@ void  load_individualHousingConstruction() {
 
 int main()
 {
-	//fstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
 	fstream file("village.txt", ios::app);
 	if (file.is_open()) {
 		cout << "\nThe file is open.";
@@ -303,7 +299,6 @@ int main()
 	else if (action == 2) {
 		load_individualHousingConstruction();
 	}
-
 	file.close();
 	return 0;
 }

@@ -56,3 +56,14 @@ Ceiling height on the floor (m): 2.1 .
 Names of rooms and rooms area (Sq m): sleeping 15; living 20; dining 15; children 15; .
 The living area of the house #4 is (Sq m): 65 .
 The area for individual housing construction is (Sq m): 2500 .
+plotLand #4 .
+Plot area (Sq m): 1500 .
+Number of buildings: 2 .
+Names of buildings: garage; .
+Number of floors in the house: 1 .
+Floor 1
+Number of rooms per floor: 3 .
+Ceiling height on the floor (m): 2.1 .
+Names of rooms and rooms area (Sq m):  living 20; dining 12; .
+The living area of the house #4 is (Sq m): 47 .
+The area for individual housing construction is (Sq m): 1500 .
