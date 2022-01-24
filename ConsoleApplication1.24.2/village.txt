@@ -1,0 +1,70 @@
+
+
+plotLand # 1 .
+Plot area (Sq m): 3000 .
+Number of buildings: 4 .
+Names of buildings: cottage; stovecot; garage; barn; bathhouse; stovebath; .
+Number of floors in the house: 2 .
+Floor 1
+Number of rooms per floor: 3 .
+Ceiling height on the floor (m): 3 .
+Names of rooms and rooms area (Sq m):  living 25; dining 15; children 20; .
+Floor 2
+Number of rooms per floor: 4 .
+Ceiling height on the floor (m): 3 .
+Names of rooms and rooms area (Sq m): sleeping 18; children 22; office 16; librory 14; .
+The living area of the house #1 is (Sq m): 130 .
+
+plotLand # 2 .
+Plot area (Sq m): 2000 .
+Number of buildings: 2 .
+Names of buildings: cottage; garage; .
+Number of floors in the house: 3 .
+Floor 1
+Number of rooms per floor: 4 .
+Ceiling height on the floor (m): 2 .
+Names of rooms and rooms area (Sq m):  living 16; dining 14; laundry 13; workroom 12; .
+Floor 2
+Number of rooms per floor: 3 .
+Ceiling height on the floor (m): 2 .
+Names of rooms and rooms area (Sq m):  office 13; librory 12; guest 15; .
+Floor 3
+Number of rooms per floor: 2 .
+Ceiling height on the floor (m): 2 .
+Names of rooms and rooms area (Sq m): sleeping 22; children 18; .
+The living area of the house #2 is (Sq m): 135 .
+The area for individual housing construction is (Sq m): 5000 .
+
+plotLand #3 .
+Plot area (Sq m): 1500 .
+Number of buildings: 2 .
+Names of buildings: cottage; garage; .
+Number of floors in the house: 1 .
+Floor 1
+Number of rooms per floor: 3 .
+Ceiling height on the floor (m): 2 .
+Names of rooms and rooms area (Sq m): sleeping 15; living 20; dining 15; .
+The living area of the house #3 is (Sq m): 50 .
+The area for individual housing construction is (Sq m): 1500 .
+
+
+
+
+
+plotLand #4 .
+Plot area (Sq m): 1500 .
+Number of buildings: 4 .
+Names of buildings: 
+ cottage stovecot garage bathhouse .
+Number of floors in the house: 2 .
+Floor 1
+Number of rooms per floor: 3 .
+Ceiling height on the floor (m): 2.1 .
+Names of rooms and rooms area (Sq m): living 15;dining 12;workroom 12; .
+Floor 2
+Number of rooms per floor: 4 .
+Ceiling height on the floor (m): 2 .
+Names of rooms and rooms area (Sq m): sleeping 12;children 12;office 10;sleeping 14; .
+The living area of the house #4 is (Sq m): 87 .
+
+The area for individual housing construction is (Sq m): 1500 .

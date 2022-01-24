@@ -1,280 +1,302 @@
 ﻿// ConsoleApplication1.24.2.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//Урок 21. Задача 2. Модель данных для посёлка.
+//Урок 21. Задача 2. Модель данных для посёлка!
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
+#define str0  ".";
+#define str1  "\nPlot area (Sq m): "
+#define str2  "\nNumber of buildings: "
+#define str3  "\nNames of buildings: "
+#define str4  "\nNumber of floors in the house: "
+#define str5  "\nNumber of rooms per floor: "
+#define str6  "\nCeiling height on the floor (m): "
+#define str7  "\nNames of rooms and rooms area (Sq m): "
+#define str8  "\nFloor "
+#define str9  "\n\nplotLand # "
+#define str11  "\nThe area for individual housing construction is (Sq m): "
+#define whitespace " "
+#define semicolon ";"
 using namespace std;
 
 struct room {
-	enum rooms { SLEEPING=1, LIVING=2, DINING=4, CHILDREN=8, OFFICE=16, LIBRARY=32, LAUNDRY=64, WORKROOM=128, GUEST=256 };
-	float roomSquare[9];	
+	string roomType;
+	float roomSquare;
 };
-room chamber[5];
+room chamber[9];
 
 struct floors {
 	int  quantityRooms;
 	float ceillingHeight;
-	struct room chamber;
+	struct room chamber[9];
+	vector<room>roomS;
 };
 floors houseFloor[3];
 
-struct village {	
-    string namePlot;
-	float square;	
-    int quantityBuilding;		
-	enum bilding {COTTAGE=1, STOVECOT=2, GARAGE = 4, BARN = 8, BATHHOUSE = 16, STOVEBATH=32};
-    int quantityFloor;
-	struct floors houseFloor[3];
+struct outbuildings {
+	vector<string> nameBuilding;
 };
-village plotLand[10];
+outbuildings  outbuildingsType[10];
+
+struct village {
+	string namePlot;
+	float square;
+	int quantityBuilding;
+	string nameBuilding;
+	int quantityFloor;
+	struct floors houseFloor[3];
+	struct outbuildings  outbuildingsType[6];
+	int sqR;
+	vector<floors>floor;
+};
+village plotLand[10];  
 
 void  record_individualHousingConstruction() {
 	string name[] = { "sleeping", "living", "dining", "children", "office", "librory", "laundry", "workroom", "guest" };
 	string outbuilding[] = { "cottage", "stovecot", "garage", "barn", "bathhouse", "stovebath" };
-	string str0 = ".";
-	string str1 = "\nPlot area (Sq m): ";
-	string str2 = "\nNumber of buildings: ";
-	string str3 = "\nNames of buildings: ";
-	string str4 = "\nNumber of floors in the house: ";
-	string str5 = "\nNumber of rooms per floor: ";
-	string str6 = "\nCeiling height on the floor (m): ";
-	string str7 = "\nNames of rooms and rooms area (Sq m): ";
-	string str8 = "\nFloor ";
-	string str9 = "\n\nplotLand # ";
-	string  str10[10];
-	string str11 = "\nThe area for individual housing construction is (Sq m): ";
-	char whitespace = ' ', semicolon = ';';
-	int plot = 0, countC=0, sqPlot=0, sqR[10];
-	vector <int> state; 
-	vector <int>  nameR;
-	vector < village> plotLands;
-	ofstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
-	plotLands.clear();	
-		cout << "\nEnter the number of plotlends.";
+    string  str10[10];
+    string str = "";
+	int plot = 0, sqPlot = 0,  count = 0;
+	ifstream cfile("village.txt");
+	while (!cfile.eof()) {
+		cfile >> str;
+		if (str.substr(0, 8) == "plotLand") {
+			count++;
+		}
+		str = "";
+	}
+	cfile.close();
+	ofstream file("village.txt", ios::app);
+	cout << "\nEnter the number of plotlands.";
+	do {
+		cin >> plot;
+		if (plot + count <= 0 || plot + count > 10) {
+			cout << "Enter right the number of plotlands";
+		}
+	} while (plot + count <= 0 || plot + count > 10);
+	for (int i = count; i < plot + count; i++) {
+		cout << "\nPlot name: ";
+		cout << "\nplotLand #" + to_string(i + 1);
+		str10[i] = "\nThe living area of the house #" + to_string(i + 1) + " is (Sq m): ";
+		plotLand[i].namePlot= "\nplotLand #" + to_string(i + 1);
+		cout << "\nEnter the square of  plotLand: ";
+		cin >> plotLand[i].square;
+		sqPlot += plotLand[i].square;
+		cout << "\nEnter the number of facility ";
 		do {
-			cin >> plot;
-			if (plot <= 0 || plot > 10) {
-				cout << "Enter right the number of plotlends";
+			cin >> plotLand[i].quantityBuilding;
+			if (plotLand[i].quantityBuilding <= 0 || plotLand[i].quantityBuilding > 6) {
+				cout << "Enter right the number of facility. ";
 			}
-		} while (plot <= 0 || plot > 10);
-		for (int i = 0; i < plot; i++) {
-			sqR[i] = 0;
-			cout << "\nPlot name: ";
-			cout << "\nplotLand #" + to_string(i + 1);
-			 str10[i] = "\nThe living area of the house #" + to_string(i + 1) + " is (Sq m): ";
-			 plotLand[i].namePlot = to_string(i+1);
-			cout << "\nEnter the square of  plotLand: ";
-			cin >> plotLand[i].square;
-			sqPlot+= plotLand[i].square;
-			cout << "\nEnter the number of facility ";
-			do {
-				cin >> plotLand[i].quantityBuilding;
-				if (plotLand[i].quantityBuilding <= 0 || plotLand[i].quantityBuilding > 6) {
-					cout << "Enter right the number of facility. ";
-				}
-			} while (plotLand[i].quantityBuilding <= 0 || plotLand[i].quantityBuilding > 6);
-			cout << "\nSpecify available buildings on the plotLand (if no, enter 0, if yes, enter any other number): ";
-			int status = 0;
-			state.push_back(status);
-			for (int j = 0; j < 6; j++) {// 6 - количество построек вместе с печью в доме и в бане построек
-
+		} while (plotLand[i].quantityBuilding <= 0 || plotLand[i].quantityBuilding > 6);
+		cout << "\nSpecify available buildings on the plotLand (if no, enter 0, if yes, enter any other number): ";
+		int status = 0, countBuilding=0;
+		while (countBuilding != plotLand[i].quantityBuilding) {
+			for (int j = 0; j < 6; j++) {// 6 - количество построек вместе с печью в доме и в бане 
 				cout << "\n" << outbuilding[j];
 				cin >> status;
 				if (status != 0) {
 					if (j == 0) {
-						state[i] |= plotLand[i].COTTAGE;
+						plotLand[i].outbuildingsType[i].nameBuilding.push_back(outbuilding[j]);
+						countBuilding++;
 					}
 					else if (j == 1) {
-						state[i] |= plotLand[i].STOVECOT;
+						plotLand[i].nameBuilding = outbuilding[j];
+						plotLand[i].outbuildingsType[i].nameBuilding.push_back(outbuilding[j]);
+						countBuilding++;
 					}
 					else if (j == 2) {
-						state[i] |= plotLand[i].GARAGE;
+						plotLand[i].nameBuilding = outbuilding[j];
+						plotLand[i].outbuildingsType[i].nameBuilding.push_back(outbuilding[j]);
+						countBuilding++;
 					}
 					else if (j == 3) {
-						state[i] |= plotLand[i].BARN;
+						plotLand[i].nameBuilding = outbuilding[j];
+						plotLand[i].outbuildingsType[i].nameBuilding.push_back(outbuilding[j]);
+						countBuilding++;
 					}
 					else if (j == 4) {
-						state[i] |= plotLand[i].BATHHOUSE;
+						plotLand[i].nameBuilding = outbuilding[j];
+						plotLand[i].outbuildingsType[i].nameBuilding.push_back(outbuilding[j]);
+						countBuilding++;
 					}
 					else if (j == 5) {
-						state[i] |= plotLand[i].STOVEBATH;
+						plotLand[i].nameBuilding = outbuilding[j];
+						plotLand[i].outbuildingsType[i].nameBuilding.push_back(outbuilding[j]);
+						countBuilding++;
 					}
 				}
 			}
-			cout << "\nSpecify the number of floors: ";
+			if (countBuilding > plotLand[i].quantityBuilding) {
+				cout << "\nError: quantity building > "<< plotLand[i].quantityBuilding<<". Restart the program.";
+			}
+			else if (countBuilding > plotLand[i].quantityBuilding) {
+				cout << "\nQuantity building > " << plotLand[i].quantityBuilding << ". Enter building name.";
+			}
+		}
+		cout << "\nSpecify the number of floors: ";
+		do {
+			cin >> plotLand[i].quantityFloor;
+			if (plotLand[i].quantityFloor <= 0 || plotLand[i].quantityFloor > 3) {
+				cout << "Enter right the number of floors: ";
+			}
+		} while (plotLand[i].quantityFloor <= 0 || plotLand[i].quantityFloor > 3);
+		int countF = plotLand[i].quantityFloor;
+		for (int j = 0; j < countF; j++) {
+			cout << "\nFloor " << j + 1 << " specify the number of rooms on the floor: ";
 			do {
-				cin >> plotLand[i].quantityFloor;
-				if (plotLand[i].quantityFloor <= 0 || plotLand[i].quantityFloor > 3) {
-					cout << "Enter right the number of floors: ";
+				cin >> plotLand[i].houseFloor[j].quantityRooms;
+				if (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 9) {
+					cout << "Enter right the number of rooms.";
 				}
-			} while (plotLand[i].quantityFloor <= 0 || plotLand[i].quantityFloor > 3);
-			int countF = plotLand[i].quantityFloor;
-			for (int j = 0; j <3*countF; j++) {    //один этаж обслуживают 3 переменные
-				int nameRs = 0;
-				nameR.push_back(nameRs);
-			}
-			for (int j = 0; j < countF; j++) {
-				cout << "\nFloor " << j + 1 << " specify the number of rooms on the floor: ";
-				do {
-					cin >> plotLand[i].houseFloor[j].quantityRooms;
-					if (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 5) {
-						cout << "Enter right the number of rooms.";
-					}
-				} while (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 5);
-				cout << "\nspecify the ceiling height: ";
-				cin >> plotLand[i].houseFloor[j].ceillingHeight;
-				int countR = plotLand[i].houseFloor[j].quantityRooms;
-				cout << "\nspecify the type of rooms(if no, enter 0, if yes, enter any other number):\n";
-				int status = 0;
+			} while (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 9);
+			cout << "\nspecify the ceiling height: ";
+			cin >> plotLand[i].houseFloor[j].ceillingHeight;
+			cout << "\nspecify the type of rooms(if no, enter 0, if yes, enter any other number):\n";
+			int status = 0;
+			int countRoom = 0;
+			while(countRoom != plotLand[i].houseFloor[j].quantityRooms) {
 				for (int l = 0; l < 9; l++) {
 					cout << name[l];
 					cin >> status;  //указывает на наличие или отсутствие комнаты
 					if (status != 0) {
 						if (l == 0) {
-							nameR[countC] |= plotLand[i].houseFloor[j].chamber.SLEEPING;							
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin>> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 1) {
-							nameR[countC] |= plotLand[i].houseFloor[j].chamber.LIVING;							
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >>  plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 2) {
-							nameR[countC] |= plotLand[i].houseFloor[j].chamber.DINING;							
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 3) {
-							nameR[countC + 1] |= plotLand[i].houseFloor[j].chamber.CHILDREN;							
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 4) {
-							nameR[countC + 1] |= plotLand[i].houseFloor[j].chamber.OFFICE;							
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 5) {
-							nameR[countC + 1] |= plotLand[i].houseFloor[j].chamber.LIBRARY;							
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 6) {
-							nameR[countC + 2] |= plotLand[i].houseFloor[j].chamber.LAUNDRY;
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 7) {
-							nameR[countC + 2] |= plotLand[i].houseFloor[j].chamber.WORKROOM;						
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
 						else if (l == 8) {
-							nameR[countC + 2] |= plotLand[i].houseFloor[j].chamber.GUEST;
+							plotLand[i].houseFloor[j].chamber[countRoom].roomType = name[l];
+							cout << "\nSpecify the area of the room: ";
+							cin >> plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].sqR += plotLand[i].houseFloor[j].chamber[countRoom].roomSquare;
+							plotLand[i].houseFloor[j].roomS.push_back(chamber[countRoom]);
+							countRoom++;
 						}
-						cout << "\nspecify the area of the room: ";
-						cin >> plotLand[i].houseFloor[j].chamber.roomSquare[l];
-						sqR[i] += plotLand[i].houseFloor[j].chamber.roomSquare[l];
+						if (countRoom > plotLand[i].houseFloor[j].quantityRooms) {
+							cout << "\nError: countRoom >9. Restart the program.";
+						}
 					}
-				}countC += 3;
-			}
-         cout << str10[i]<< sqR[i]<< semicolon;
-			plotLands.push_back(plotLand[i]);
+				}
+		   }
+		} 
+		cout << str10[i] << plotLand[i].sqR << semicolon;
+	}
+	cout << str11;
+	cout<< sqPlot << semicolon;
+	for (int i = count; i < plot + count; i++) {
+		file << plotLand[i].namePlot << whitespace;
+		file << str0;
+		file<< str1;
+		file<< plotLand[i].square << whitespace << str0;
+		file << str2 << plotLand[i].quantityBuilding << whitespace << str0;
+		file<< str3;
+		file << "\n ";
+		for (int l = 0; l < plotLand[i].outbuildingsType[i].nameBuilding.size(); l++) {
+			file << plotLand[i].outbuildingsType[i].nameBuilding[l] << " ";
 		}
-        cout << str11<< sqPlot<< semicolon;
-		countC = 0;
-		for (int i = 0; i < plot; i++) {
-			file << str9 << plotLands[i].namePlot << whitespace << str0 << str1 << plotLands[i].square << whitespace << str0;
-			file<< str2 << plotLands[i].quantityBuilding << whitespace << str0 << str3;
-			if (state[i] & plotLand[i].COTTAGE) {
-				file << outbuilding[0] << semicolon << whitespace;
+		file << str0;
+		file<< str4 << plotLand[i].quantityFloor << whitespace << str0;
+		for (int j = 0; j < plotLand[i].quantityFloor; j++) {
+			int numF = j + 1;
+			file << str8 << to_string(numF) << str5 << plotLand[i].houseFloor[j].quantityRooms << whitespace << str0;//numF привёл к str
+			file << str6 << plotLand[i].houseFloor[j].ceillingHeight << whitespace << str0;
+			file << str7;
+			for(int k=0;k< plotLand[i].houseFloor[j].quantityRooms;k++){
+				file << plotLand[i].houseFloor[j].chamber[k].roomType << whitespace;
+				file<< plotLand[i].houseFloor[j].chamber[k].roomSquare << semicolon;
 			}
-			if (state[i] & plotLand[i].STOVECOT) {
-				file << outbuilding[1] << semicolon << whitespace;
-			}
-			if (state[i] & plotLand[i].GARAGE) {
-				file << outbuilding[2] << semicolon << whitespace;
-			}
-			if (state[i] & plotLand[i].BARN) {
-				file << outbuilding[3] << semicolon << whitespace;
-			}
-			if (state[i] & plotLand[i].BATHHOUSE) {
-				file << outbuilding[4] << semicolon << whitespace;
-			}
-			if (state[i] & plotLand[i].STOVEBATH) {
-				file << outbuilding[5] << semicolon << whitespace;
-			}
-			file<<str0 << str4 << plotLand[i].quantityFloor<< whitespace << str0;
-			for (int j = 0; j < plotLand[i].quantityFloor; j++) {
-				int numF = j + 1;
-				file << str8 <<to_string( numF) << str5 << plotLand[i].houseFloor[j].quantityRooms<< whitespace <<str0;//numF привёл к str
-				file << str6 << plotLand[i].houseFloor[j].ceillingHeight<< whitespace <<str0;
-				file << str7;
-				if (nameR[countC] & plotLand[i].houseFloor[j].chamber.SLEEPING) {
-					file << name[0] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[0] << semicolon;
-				}
-				if (nameR[countC] & plotLand[i].houseFloor[j].chamber.LIVING) {
-					file << whitespace << name[1] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[1] << semicolon;
-				}
-				if (nameR[countC] & plotLand[i].houseFloor[j].chamber.DINING) {
-					file << whitespace << name[2] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[2] << semicolon;
-				}
-				if (nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.CHILDREN) {
-					file << whitespace << name[3] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[3] << semicolon;
-				}
-				if (nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.OFFICE) {
-					file << whitespace << name[4] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[4] << semicolon;
-				}
-				if (nameR[countC + 1] & plotLand[i].houseFloor[j].chamber.LIBRARY) {
-					file << whitespace << name[5] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[5] << semicolon;
-				}
-				if (nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.LAUNDRY) {
-					file << whitespace << name[6] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[6] << semicolon;
-				}
-				if (nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.WORKROOM) {
-					file << whitespace << name[7] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[7] << semicolon;
-				}
-				if (nameR[countC + 2] & plotLand[i].houseFloor[j].chamber.GUEST) {
-					file << whitespace << name[8] << whitespace << plotLand[i].houseFloor[j].chamber.roomSquare[8] << semicolon;				
-				}
-				countC += 3;
-				file << whitespace << str0;
-			}
-			file<< str10[i] << sqR[i] << whitespace<< str0;
+			file << whitespace << str0;
 		}
-		file<<str11<<sqPlot << whitespace<< str0;
+		file << str10[i] << plotLand[i].sqR << whitespace << str0;
+        file<<"\n";
+	}
+	 file << str11 <<sqPlot << whitespace << str0;
 }
 
 void  load_individualHousingConstruction() {
 	string name[] = { "sleeping", "living", "dining", "children", "office", "librory", "laundry", "workroom", "guest" };
 	string outbuilding[] = { "cottage", "stovecot", "garage", "barn", "bathhouse", "stovebath" };
-	string str0 = ".";
-	string str1 = "\nPlot area (Sq m): ";
-	string str2 = "\nNumber of buildings: ";
-	string str3 = "\nNames of buildings: ";
-	string str4 = "\nNumber of floors in the house: ";
-	string str5 = "\nNumber of rooms per floor: ";
-	string str6 = "\nCeiling height on the floor (m): ";
-	string str7 = "\nNames of rooms and rooms area (Sq m): ";
-	string str8 = "\nFloor ";
-	string str9 = "\n\nplotLand # ";
-	string  str10[10], str="";
-	string str11 = "\nThe area for individual housing construction is (Sq m): ";
-	string str12 = "\n";
-	string nameBuilding = "", nameRoom = "";
-	char whitespace = ' ', semicolon = ';';
-	int plot = 0, countC[10], countR[10], sqPlot = 0, sqR[10];
-	vector <string> state;
-	vector <string>  nameR;
-	int num = 0;
-//	vector < village> plotLands;
-	ifstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt");
+    string  str = "";
+    vector <string> state;
+	ifstream file("village.txt");
 	while (!file.eof()) {
 		file >> str;
 		state.push_back(str);
-	//	state.push_back(to_string(whitespace));
-
 		str = "";
-		
 	}
 	for (int i = 0; i < state.size(); i++) {
 		cout << state[i] << whitespace;
-		if (state[i] == str0) {
-			cout<<"\n";
+		string s = str0;
+		if (state[i] == s) {
+			cout << "\n";
 		}
 	}
 }
 
 int main()
 {
-	fstream file("C:\\Users\\Александр\\Documents\\text for program\\village.txt", ios::app);
+	fstream file("village.txt", ios::app);
 	if (file.is_open()) {
 		cout << "\nThe file is open.";
 	}
@@ -291,11 +313,9 @@ int main()
 	else if (action == 2) {
 		load_individualHousingConstruction();
 	}
-	
 	file.close();
-	return 0;	
+	return 0;
 }
-
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
 // Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
 

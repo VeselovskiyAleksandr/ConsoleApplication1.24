@@ -6,11 +6,24 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#define str0  ".";
+#define str1  "\nPlot area (Sq m): "
+#define str2  "\nNumber of buildings: "
+#define str3  "\nNames of buildings: "
+#define str4  "\nNumber of floors in the house: "
+#define str5  "\nNumber of rooms per floor: "
+#define str6  "\nCeiling height on the floor (m): "
+#define str7  "\nNames of rooms and rooms area (Sq m): "
+#define str8  "\nFloor "
+#define str9  "\n\nplotLand # "
+#define str11  "\nThe area for individual housing construction is (Sq m): "
+#define whitespace " "
+#define semicolon ";"
 using namespace std;
 
 struct room {
 	enum rooms { SLEEPING, LIVING, DINING, CHILDREN, OFFICE, LIBRARY, LAUNDRY, WORKROOM, GUEST };
-	float roomSquare[9];
+	float roomSquare[12];
 };
 room chamber[12];
 
@@ -23,7 +36,7 @@ struct floors {
 floors houseFloor[3];
 
 struct village {
-	string namePlot;
+	//string namePlot;
 	float square;
 	int quantityBuilding;
 	enum bilding { COTTAGE, STOVECOT, GARAGE, BARN, BATHHOUSE, STOVEBATH };
@@ -37,20 +50,8 @@ village plotLand[10];
 void  record_individualHousingConstruction() {
 	string name[] = { "sleeping", "living", "dining", "children", "office", "librory", "laundry", "workroom", "guest" };
 	string outbuilding[] = { "cottage", "stovecot", "garage", "barn", "bathhouse", "stovebath" };
-	string str0 = ".";
-	string str1 = "\nPlot area (Sq m): ";
-	string str2 = "\nNumber of buildings: ";
-	string str3 = "\nNames of buildings: ";
-	string str4 = "\nNumber of floors in the house: ";
-	string str5 = "\nNumber of rooms per floor: ";
-	string str6 = "\nCeiling height on the floor (m): ";
-	string str7 = "\nNames of rooms and rooms area (Sq m): ";
-	string str8 = "\nFloor ";
-	string str9 = "\n\nplotLand # ";
 	string  str10[10];
-	string str11 = "\nThe area for individual housing construction is (Sq m): ";
 	string str = "";
-	char whitespace = ' ', semicolon = ';';
 	int plot = 0, countC=0, sqPlot = 0, sqR[10], count=0;
 	ifstream cfile("village.txt");
 	while (!cfile.eof()) {
@@ -129,10 +130,10 @@ void  record_individualHousingConstruction() {
 			cout << "\nFloor " << j + 1 << " specify the number of rooms on the floor: ";
 			do {
 				cin >> plotLand[i].houseFloor[j].quantityRooms;
-				if (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 5) {
+				if (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 9) {
 					cout << "Enter right the number of rooms.";
 				}
-			} while (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 5);
+			} while (plotLand[i].houseFloor[j].quantityRooms <= 0 || plotLand[i].houseFloor[j].quantityRooms > 9);
 			cout << "\nspecify the ceiling height: ";
 			cin >> plotLand[i].houseFloor[j].ceillingHeight;
 			int countR = plotLand[i].houseFloor[j].quantityRooms;
@@ -183,8 +184,10 @@ void  record_individualHousingConstruction() {
 	cout << str11 << sqPlot << semicolon;
 	countC = 0;
 	for (int i = count; i < plot+count; i++) {
-		file << plotLand[i].plotLands[0] << whitespace << str0 << str1<< plotLand[i].square << whitespace << str0;
-		file << str2 << plotLand[i].quantityBuilding << whitespace << str0 << str3;
+		file << plotLand[i].plotLands[0] << whitespace << str0;
+		file<< str1 << plotLand[i].square << whitespace << str0;
+		file << str2 << plotLand[i].quantityBuilding << whitespace << str0;
+		file<< str3;
 		if (plotLand[i].state[i - count] & plotLand[i].COTTAGE) {
 			file << outbuilding[0] << semicolon << whitespace;
 		}
@@ -203,7 +206,8 @@ void  record_individualHousingConstruction() {
 		if (plotLand[i].state[i - count+1] & plotLand[i].STOVEBATH) {
 			file << outbuilding[5] << semicolon << whitespace;
 		}
-		file << str0 << str4 << plotLand[i].quantityFloor << whitespace << str0;
+		file << str0;
+		file<< str4 << plotLand[i].quantityFloor << whitespace << str0;
 		for (int j = 0; j < plotLand[i].quantityFloor; j++) {
 			int numF = j + 1;
 			file << str8 << to_string(numF) << str5 << plotLand[i].houseFloor[j].quantityRooms << whitespace << str0;//numF привёл к str
@@ -247,21 +251,8 @@ void  record_individualHousingConstruction() {
 void  load_individualHousingConstruction() {
 	string name[] = { "sleeping", "living", "dining", "children", "office", "librory", "laundry", "workroom", "guest" };
 	string outbuilding[] = { "cottage", "stovecot", "garage", "barn", "bathhouse", "stovebath" };
-	string str0 = ".";
-	string str1 = "\nPlot area (Sq m): ";
-	string str2 = "\nNumber of buildings: ";
-	string str3 = "\nNames of buildings: ";
-	string str4 = "\nNumber of floors in the house: ";
-	string str5 = "\nNumber of rooms per floor: ";
-	string str6 = "\nCeiling height on the floor (m): ";
-	string str7 = "\nNames of rooms and rooms area (Sq m): ";
-	string str8 = "\nFloor ";
-	string str9 = "\n\nplotLand # ";
 	string  str10[10], str = "";
-	string str11 = "\nThe area for individual housing construction is (Sq m): ";
-	string str12 = "\n";
 	string nameBuilding = "", nameRoom = "";
-	char whitespace = ' ', semicolon = ';';
 	int plot = 0, countC[10], countR[10], sqPlot = 0, sqR[10];
 	vector <string> state;
 	vector <string>  nameR;
@@ -272,9 +263,10 @@ void  load_individualHousingConstruction() {
 		state.push_back(str);
 		str = "";
 	}
+	string s = str0;
 	for (int i = 0; i < state.size(); i++) {
 		cout << state[i] << whitespace;
-		if (state[i] == str0) {
+		if (state[i] == s) {
 			cout << "\n";
 		}
 	}
